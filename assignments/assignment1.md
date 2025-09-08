@@ -190,4 +190,8 @@ Evidence:
 
 5. [Expanding your music taste](https://www.thefamuanonline.com/2021/10/25/expand-your-music-taste/) can help in creative expression, as well as contributing to additional beneficial factors mentioned above.
 
-6. 
+6. As mentioned earlier, [certain spaces exist](https://www.reddit.com/r/LetsTalkMusic/comments/cak0ib/how_do_yall_find_music_to_fit_into_certain_vibes/) for various components of this process, but they are clunky and disorganized. Centralizing and simplifying would help to produce more satisfied listeners.
+
+7. [Airbuds](https://apps.apple.com/us/app/airbuds-widget/id1638906106) offers some of these components, especially certain aspects of the third feature listed. However, its interface can serve as a deterrent and does not span some other key features.
+
+8. People consistently are [facing the problem](https://www.reddit.com/r/spotify/comments/10mnwd6/how_to_find_new_music_better/) of hoping to find new music, but most streaming platforms lack an integrated feature to make this a pleasurable experience.
