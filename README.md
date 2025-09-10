@@ -13,5 +13,5 @@ Some fun facts about me:
 
 
 # Table of Contents
-[Assignment 1](assignments/assignment1.md)
-[PSET 1](psets/pset1.md)
+- [Assignment 1](assignments/assignment1.md)
+- [PSET 1](psets/pset1.md)
