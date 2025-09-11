@@ -1,5 +1,6 @@
 # PSET 1
-**Exercise 1:** Reading a concept
+## Exercise 1
+**Reading a concept**
 1. Invariants. 
 
 Q: What are two invariants of the state? (Hint: one is about aggregation/counts of items, and one relates requests and purchases). Say which one is more important and why; identify the action whose design is most affected by it, and say how it preserves it.
@@ -42,21 +43,63 @@ Q: The User and Item types are specified as generic parameters. The Item type mi
 
 A: Using this generic Item type allows for more simple specification within the GiftRegistration concept and to use whatever Item specification best suits the specific use of this concept. This particularly simplifies the maintenance of the invariant regarding having no duplicate items on the registry.
 
-**Exercise 2:** Extending a familiar concept
+## Exercise 2
+**Extending a familiar concept**
 1. Complete the definition of the concept state.
-- A: 
+```
+a set of Users with
+    a username String
+    a password String
+```
 2. Write a requires/effects specification for each of the two actions. (Hints: The register action creates and returns a new user. The authenticate action is primarily a guard, and doesn’t mutate the state.)
-- A:
-3. What essential invariant must hold on the state? How is it preserved?
-- A:
-4. One widely used extension of this concept requires that registration be confirmed by email. Extend the concept to include this functionality. (Hints: you should add (1) an extra result variable to the register action that returns a secret token that (via a sync) will be emailed to the user; (2) a new confirm action that takes a username and a secret token and completes the registration; (3) whatever additional state is needed to support this behavior.)
-- A:
+```
+register (username: String, password: String): (user: User)
+    requires: there is not already a User with the given username
+    effects: creates a new User with the given username and password, adds it to the set of Users, and returns it
 
-**Exercise 3:** Comparing concepts
+authenticate (username: String, password: String): (user: User)
+    requires: a User with the given username exists and its password matches the given password
+    effects: returns the corresponding User
+```
+3. What essential invariant must hold on the state? How is it preserved? <br>
+Each User must have a unique username. This is maintained by the requirement on *register* that the username is not already taken by an existing User.
+
+4. One widely used extension of this concept requires that registration be confirmed by email. Extend the concept to include this functionality. (Hints: you should add (1) an extra result variable to the register action that returns a secret token that (via a sync) will be emailed to the user; (2) a new confirm action that takes a username and a secret token and completes the registration; (3) whatever additional state is needed to support this behavior.)
+
+For this extension, the concept design would look like this:
+```
+concept PasswordAuthentication
+purpose limit access to known users
+principle after a user registers with a username and a password, they can authenticate with that same 
+          username and password and be treated each time as the same user
+state
+    a set of Users with
+        a username String
+        a password String
+        a confirmed Flag
+        a token Token
+actions
+    register (username: String, password: String): (user: User, token: Token)
+        requires: there is not already a User with the given username
+        effects: generates a token for the User; creates a new User with the given username and password,  
+                 confirmed flag set to false, and generated token; adds the new User to the set of Users; 
+                 returns the new User
+    authenticate (username: String, password: String): (user: User)
+        requires: a User with the given username exists, its password matches the given password, and its 
+                  confirmed flag is set to true
+        effects: returns the corresponding User <br>
+    confirm (username: String, token: Token): (user: User)<br>
+        requires: a User with the given username exists in the set of Users, its confirmed flag is false, and 
+                  the input token matches its token
+        effects: updates the indicated User's confirmed flag to true and returns the User
+```
+## Exercise 3
+**Comparing concepts**
 
 Deliverables: a concept specification for PersonalAccessToken and a succinct note about how it differs from PasswordAuthentication and how you might change the GitHub documentation to explain this.
 
-**Exercise 4:** Defining familiar concepts
+## Exercise 4
+**Defining familiar concepts**
 
 Deliverables: three concept specifications, with any subtleties explained in brief additional notes.
 
