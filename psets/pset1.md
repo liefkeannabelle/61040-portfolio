@@ -167,7 +167,7 @@ actions
 ```
 concept BoardingPass
 purpose provide a digital boarding pass 
-principle after checking in, passengers can add a digital version of their boarding pass to the digital wallet. the airline can keep the information on this pass up-to-date and use it during boarding.
+principle after checking in, passengers can add a digital version of their boarding pass to the digital wallet. the airline can keep the information on this pass up-to-date with real-time updates to departure time, status, and gate and use it during boarding.
 state
     a set of Flights with
         a flight_id Number
@@ -189,15 +189,17 @@ actions
         requires: the passenger is the in the flight's Seat set
         effects: a pass is created with the given passenger and flight
     update_gate (flight_id : Number, new_gate : String) : Flight
-        requires:
+        requires: the flight with flight_id exists and has a flight status that is not "Past"
         effects: the assigned_gate for the given flight is updated to new_gate and the flight is returned
     update_departure (flight_id : Number, new_departure : Time) : Flight
-        requires:
+        requires: the flight with flight_id exists and has a flight status that is not "Past"
         effects: the departure_time for the given flight is updated to new_departure and the flight is returned
     update_flight_status (flight_id : Number, new_status : Status) : Flight
-        requires:
+        requires: the flight with flight_id exists and has a flight status that is not "Past"
         effects: the flight_status for the given flight is updated to the new_status and the flight is returned 
     swap_seat (flight_id : Number, old_seat: Seat, new_seat : Seat)
-        requires: 
+        requires: the flight with flight_id exists and has a flight status that is not "Past"
         effects: the passengers in the old_seat and new_seat are swapped (including if either seat was originally unassigned) and their assigned flags are adjusted to reflect this change
 ```
+Additional consideration:
+- I'm not confident about where to include the possible values for FlightStatus -- it doesn't seem like it fits in the state because it is non-changing -- but want to capture what I'm picturing. Possible states would be: "On-Time", "Delayed", "Canceled", "Boarded", "In-Flight", "Arrived", "Past".
