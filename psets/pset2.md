@@ -1,10 +1,23 @@
 # PSET 2
 ## Concept Questions
-1. Contexts. The NonceGeneration concept ensures that the short strings it generates will be unique and not result in conflicts. What are the contexts for, and what will a context end up being in the URL shortening app?
+1. Contexts are used to keep generated shortened URLs unique within a certain scope. In use within the URL shortening app, the contexts are the shortUrlBases. Each base must have all unique suffixes so that no two shortened URLs are equivalent.
 
-2. Storing used strings. Why must the NonceGeneration store sets of used strings? One simple way to implement the NonceGeneration is to maintain a counter for each context and increment it every time the generate action is called. In this case, how is the set of used strings in the specification related to the counter in the implementation? (In abstract data type lingo, this is asking you to describe an abstraction function.)
+2. In order to successfully maintain uniqueness of URLs within each context, NonceGeneration must store some information regarding what strings have already been used. In the described implementation, there would need to be some deterministic way to convert from an number to a string, such that knowing the last used number indicates what the next available string is. 
 
-3. Words as nonces. One option for nonce generation is to use common dictionary words (in the style of yellkey.com, for example) resulting in more easily remembered shortenings. What is one advantage and one disadvantage of this scheme, both from the perspective of the user? How would you modify the NonceGeneration concept to realize this idea?
+3. Pro: these strings are easy to use and share since they consist of words individuals know, rather than strings of random characters. Con: the generated strings, while shortened, end up longer than if you could use any sequence of characters to avoid the heightened probability of collision. To capture this in the concept design for NonceGeneration, I would modify as follows:
+```
+  concept NonceGeneration [Context]
+  purpose generate unique strings within a context
+  principle each generate returns a string not returned before for that context
+  state
+    a set of Contexts with
+      a used set of Strings
+      a wordBank set of Strings
+  actions
+    generate (context: Context) : (nonce: String)
+      requires there are available strings in wordBank that are not yet in used  
+      effect returns a nonce from wordBank that is not already in used
+```
 
 ## Synchronization Questions
 1. Partial matching. In the first sync (called generate), the Request.shortenUrl action in the when clause includes the shortUrlBase argument but not the targetUrl argument. In the second sync (called register) both appear. Why is this?
