@@ -20,15 +20,21 @@
 ```
 
 ## Synchronization Questions
-1. Partial matching. In the first sync (called generate), the Request.shortenUrl action in the when clause includes the shortUrlBase argument but not the targetUrl argument. In the second sync (called register) both appear. Why is this?
+1. In presenting these syncs, these clauses are included to match the use case. Since targetUrl is not used to generate a nonce, its value is irrelavant to the invocation and can be omitted. In the second sync, the value of targetUrl and shortUrlBase are both used in register, so both are included in the invocation.
 
-2. Omitting names. The convention that allows names to be omitted when argument or result names are the same as their variable names is convenient and allows for a more succinct specification. Why isn’t this convention used in every case?
+2. Like mentioned in question 1, not all clauses are included in every invocation, so it is important that it remains clear what parameters *are* being included. To maintain this clarity, the argument name and bound variable name must both be included if they differ. If this were not the case, there is room for multiple interpretations regarding what invocation is being made.
 
-3. Inclusion of request. Why is the request action included in the first two syncs but not the third one?
+3. The first two syncs are both triggered at least in part by user input, thus include a request. However, the third sync is triggered internally upon completion of the registration, so it does not include a request.
 
-4. Fixed domain. Suppose the application did not support alternative domain names, and always used a fixed one such as “bit.ly.” How would you change the synchronizations to implement this?
+4. The domain is equivalent to the context, which in this case is the shortUrlBase. So, to fix the domain, we want to hardcode the shortUrlBase, rather than passing in a variable value. To do this, the context parameter would be passed in as "bit.ly", rather than shortUrlBase, which is no longer needed.
 
-5. Adding a sync. These synchronizations are not complete; in particular, they don’t do anything when a resource expires. Write a sync for this case, using appropriate actions from the ExpiringResource and URLShortening concepts.
+5. To react accordingly to a shortUrl expiring, we would want to add the following sync:
+```
+sync expire
+when ExpiringResource.expireResource() : resource
+then UrlShortening.delete(shortUrl: resource)
+```
+
 
 ## Extending the Design
 1. Design a couple of additional concepts to realize this extension, and write them out in full (but including only the essential actions and state). It should not be necessary to make any changes to the existing concepts.
