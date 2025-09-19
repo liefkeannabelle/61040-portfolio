@@ -37,14 +37,64 @@ then UrlShortening.delete(shortUrl: resource)
 
 
 ## Extending the Design
-1. Design a couple of additional concepts to realize this extension, and write them out in full (but including only the essential actions and state). It should not be necessary to make any changes to the existing concepts.
+1. We will define two additional concepts to make the desired behavior possible:
+```
+concept VisitAnalytics[Resource]
+purpose maintain visit count for given resource
+principle after creating a visitable resource, its creator can check to see how many visits it has received.
+state 
+  a set of Analytics with
+    a resource Resource
+    a visitCount Number 
+actions
+  addVisit(resource : Resource) : Resource
+    requires: resource is in Analytics
+    effects: increments visitCount and returns updated resource
+  query(resource : Resource ) : Number
+    requires: resource is in Analytics
+    effects: returns the value of visitCount for resource
+
+
+concept ResourceOwnership[Resource, User]
+purpose associate an owner with a resource
+principle upon creation of a resource, an owner is assigned such that certain privileges can be moderated.
+state
+  a set of Relations with
+    a resource Resource
+    an owner User
+actions
+  assignOwner(resource : Resource, owner : User) : Resource
+    requires: resource is a valid Resource not already in Relations
+    effects: resource is added to Relations with owner as its owner
+  checkOwner(resource : Resource, possOwner : User) : Boolean
+    requires: resource is in Relations
+    effects: returns True if possOwner = owner for resource, otherwise returns False
+```
 
 2. Specify three essential synchronizations with your new concepts: one that happens when shortenings are created; one when shortenings are translated to targets; and one when a user examines analytics.
+```
+sync assignOwnership
+when 
+  UrlShortening.register(): shortUrl
+  Request.getUser(): requestUser
+then ResourceOwnership.assignOwner(resource : shortUrl, owner : requestUser)
 
-3. As a way to assess the modularity of your solution, consider each of the following feature requests, to be included along with analytics. For each one, outline how it might be realized (eg, by changing or adding a concept or a sync), or argue that the feature would be undesirable and should not be included:
+sync recordLookup
+when UrlShortening.lookup(shortUrl): targetUrl
+then UrlAnalytics.addVisit(shortUrl)
 
-- Allowing users to choose their own short URLs;
-- Using the “word as nonce” strategy to generate more memorable short URLs;
-- Including the target URL in analytics, so that lookups of different short URLs can be grouped together when they refer to the same target URL;
-- Generate short URLs that are not easily guessed;
-- Supporting reporting of analytics to creators of short URLs who have not registered as user.
+sync showAnalytics
+when 
+  Request.analytics(shortUrl)
+  Request.getUser(): requestUser
+  ResourceOwnership.checkOwner(shortUrl, requestUser): True
+then 
+  UrlAnalytics.query(shortUrl): (records)
+```
+
+3. Here is my outline for each of the proposed additions:
+- Allowing users to choose their own short URLs → This could be realized by allowing user input in selecting shortUrlSuffix. This would require adding an action to UrlShortening with a requirement for uniqueness like in NonceGeneration. There would not be a need to add to the state or syncs.
+- Using the “word as nonce” strategy to generate more memorable short URLs → This could be realized by adding an alternate action to NonceGeneration for generation of nonce made of words. This would be triggered by a sync that, when given a request for a shortened URL of words, calls this new action.
+- Including the target URL in analytics, so that lookups of different short URLs can be grouped together when they refer to the same target URL → This is not an extension that makes sense to implement in this way. While short URLs are bound to original URLs, they may each have different owners, and this information is privileged to said owner. Additionally, aggregation does not paint a picture that cannot be gathered from existing querying assuming an owner has multiple short URLs for the same target. Still, since these shortened URLs likely serve different purposes, it is best to keep the relationship as it stands now.
+- Generate short URLs that are not easily guessed → Similar to the second augmentation, this could be achieved by adding another action in NonceGeneration for more complex, harder to guess nonces and a synce that allows a user to request this be used.
+- Supporting reporting of analytics to creators of short URLs who have not registered as user → Given the generic type used to define User in my concept design, this can be achieved so long as there is some way to authenticate (e.g. IP address, etc). 
