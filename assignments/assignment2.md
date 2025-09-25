@@ -1,15 +1,31 @@
 # Assignment 2
 
 ## Problem statement.
-In your first assignment, you brainstormed a set of problems that your project might address. You should now pick one of those problems and refine it for this assignment. Your problem statement should be less than one page in length, and should include the following deliverables:
+**Problem domain:** Time Management 
 
-- A problem domain, with a title and a few sentences explaining it. Remember that a domain is not a particular problem but an area of activity that you are involved or interested in. Your explanation should include what your connection is and why you care about it. (See examples in the first assignment.)
+Time management is of the utmost importance for people across all fields, focuses, and backgrounds. Whether professional, academic, or personal, to-dos seem to pile up, and it becomes increasingly valuable to have a way to tackle them. As a college student, it often feels like there is such a wide array of tasks to tackle, and it becomes incredibly daunting to try and piece together a logical plan for accomplishing them. However, good time management is not just a resume skill; it can grant you freedom to relax, socialize, and engage with hobbies. By staying on top of your to-dos, you can ultimately achieve a more balanced life. 
 
-- A problem: one key problem faced by users within this domain, with a title and a few sentences explaining it. Remember that a problem must be a difficulty experienced in the problem domain by users; it should not be a flaw or limitation of existing solutions.
+**Problem:** Interdependent To-Do Lists
 
-- A stakeholder list, with a name for each kind of stakeholder, and a sentence explaining their role (if any) in the problem.
+Time management is, of course, a broad domain, and there are many different angles to take. Personally, one of the pressing issues I experience is the case of interdependent tasks complicating the creation of a to-do list. In my academics, this can look like needing to complete a reading before I can write a discussion post. In my personal life, I need to go grocery shopping before I can make my meal prep for the week. While each of these interdependencies may seem quite simple on its face, the web of connections can quickly become daunting, especially when I need to do the reading, discussion post, shopping, and cooking all in the same weekend. Often, it would be helpful to randomize the tasks at hand to avoid decision fatigue, but this is not made easy when tasks depend on one another. So, an app to digest these dependencies and produce a viable to-do lists would help address this problem.
 
-- Evidence and comparables: a list of pieces of evidence that the problem is real, which will likely be citations of publicly available resources (but could also be observations that you have made about the extent or nature of the problem), and some comparables, being applications that address this or a related problem. Your list of evidence and comparables should have at least 5 entries, each with a title, an optional link, and a sentence or two explaining it.
+**Stakeholders:**
+
+1. College students: With a wide range of types of tasks to tackle, college students often encounter this problem. As young adults, they are also particularly benefited by tools to help develop these time management skills.
+
+2. Working professionals: In a professional setting, different projects and tasks can have large numbers of interdependencies that make them likely to encounter this problem. 
+
+3. Parents: When accounting for your own life and the life of others within your home, it can be incredibly difficult to account for all the different variables and the ways in which they interplay with one another. 
+
+**Evidence & Comparables:** 
+*Evidence:*
+- [Benefits of To-Do Lists](https://hbr.org/2022/01/why-we-continue-to-rely-on-and-love-to-do-lists) - To-do lists can be a powerful tool for many people in managing their lives, so improving this tool to better reflect life would be to the benefit of at least some stakeholders.
+- [Benefits of Randomness](https://medium.com/@haimson/using-randomness-to-improve-work-productivity-4c835d645204) - Randomness can help foster productivity.
+- [To-Do List Flexibility](https://www.lifehack.org/articles/productivity/how-to-create-a-to-do-list-that-makes-you-smile.html#good-to-do-list) - While to-do lists are not a "one-size-fits-all" tool for time management, allowing for flexibility can benefit users.
+
+*Comparables:*
+- [General To-Do List Apps](https://zapier.com/blog/best-todo-list-apps/) - There are many strong to-do list platforms. In general, each focus on some specific aspect of time management like tackling procrastintion, time blocking, or preventing burnout. However, none seem to utilize the idea of dependency-minded randomness, meaning there is room in the market for this idea.
+- [Apps with Interdependencies](https://www.reddit.com/r/productivity/comments/bkpwky/to_do_list_app_with_task_dependencies/) - When looking for tools that consider task interdependencies, there are few solid comparable options, each with notable design limitations of there own. However, the fact that there are users requesting such features reaffirms the demand for such a platform.
 
 
 ## Application pitch. 
