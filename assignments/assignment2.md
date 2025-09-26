@@ -48,21 +48,20 @@ Design a set of concepts that will embody the functionality of your app and deli
 
 **Concepts**
 ```
-concept TaskBank[Status, Relation]
+concept TaskBank[Relation]
 purpose allow for tasks to relate to one another
 principle users can enter tasks and denote their relationship to other existing tasks.
 state
     a set of Tasks with 
         a taskName String
         an optional description String
-        a taskStatus Status
         a set of Dependencies with
             a depTask Task
             a depRelation Relation
 actions
-    addTask (name : String, (optional) desc : String) : Task
+    addTask (name : String, ? desc : String ) : Task
         requires : there is not already a Task with taskName = name
-        effects : new Task with taskName = name, description = desc, and taskStatus = incomplete returned and added to the set of Tasks
+        effects : a new Task with taskName = name and description = desc is returned and added to the set of Tasks
     deleteTask (task : Task) 
         requires : task is in set of Tasks
         effects : task is removed from set of Tasks
@@ -72,6 +71,33 @@ actions
     deleteDependency (task : Task, dependency : Dependency)
         requires : task has dependency in its set of Dependencies
         effects : dependency is removed from task's set of Dependencies and the corresponding Dependency is deleted from depTask's set of Dependencies
+```
+
+```
+concept ToDoList[Status]
+purpose allow for tasks to be selected as "to-do" and formatted in a list given their dependencies
+principle users can select tasks from their task bank to add to their current to-do list
+state
+    a set of Lists with
+        a title String
+        a set of ListItems with
+            a task Task
+            a taskStatus Status
+            an orderNumber Number
+        an itemCount Number
+actions
+    newList (listName : String) : List
+        requires : no List with listName exists in set of Lists
+        effect : new List with title = listName, itemCount = 0, and an empty set of ListItems is returned and added to set of Lists
+    addTask (list : List, task : Task) : ListItem
+        requires : listItem containing task is not already in list
+        effect : a new listItem is created with task = task, taskStatus = incomplete, and orderNumber = itemCount+1. itemCount is incremented. the new listItem is returned and added to list's set of listItems.
+    deleteTask (list : List, task : Task)
+        requires : a listIem containing task is in list's set of listItems
+        effect : the listItem containing task is removed from list's set of listItems
+    assignOrder (list : List, task : Task, newOrder : Number)
+        requires : task belongs to a ListItem in list
+        effects : task's ListItem gets orderNumber set to newOrder and the ListItems with orderNumbers between the old value and new value are offset by one accordingly
 ```
 
 **Syncs**
