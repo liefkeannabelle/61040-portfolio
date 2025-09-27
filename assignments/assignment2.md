@@ -72,17 +72,15 @@ actions
         requires : task has dependency in its set of Dependencies
         effects : dependency is removed from task's set of Dependencies and the corresponding Dependency is deleted from depTask's set of Dependencies
 ```
-
 ```
-concept ToDoList[Status]
-purpose allow for tasks to be selected as "to-do" and formatted in a list given their dependencies
-principle users can select tasks from their task bank to add to their current to-do list
+concept ListCreation
+purpose allow for grouping of tasks into lists, subsets of the task bank
+principle users can create a to-do list, select tasks from their task bank to add to it, and set a default ordering of the tasks according to their dependencies
 state
     a set of Lists with
         a title String
         a set of ListItems with
             a task Task
-            a taskStatus Status
             an orderNumber Number
         an itemCount Number
 actions
@@ -91,13 +89,65 @@ actions
         effect : new List with title = listName, itemCount = 0, and an empty set of ListItems is returned and added to set of Lists
     addTask (list : List, task : Task) : ListItem
         requires : listItem containing task is not already in list
-        effect : a new listItem is created with task = task, taskStatus = incomplete, and orderNumber = itemCount+1. itemCount is incremented. the new listItem is returned and added to list's set of listItems.
+        effect : a new listItem is created with task = task, taskStatus = incomplete, and defaultOrder = itemCount+1. itemCount is incremented. the new listItem is returned and added to list's set of listItems.
     deleteTask (list : List, task : Task)
         requires : a listIem containing task is in list's set of listItems
         effect : the listItem containing task is removed from list's set of listItems
     assignOrder (list : List, task : Task, newOrder : Number)
         requires : task belongs to a ListItem in list
-        effects : task's ListItem gets orderNumber set to newOrder and the ListItems with orderNumbers between the old value and new value are offset by one accordingly
+        effects : task's ListItem gets defaultOrder set to newOrder and the ListItems with defaultOrders between the old value and new value are offset by one accordingly
+```
+```
+concept Session[List, TaskStatus, OrderType, FormatType]
+purpose a focused session of completing all tasks on a list
+principle a user will "activate" a list to start a session and be given an ordered list (either default ordering or generated) of tasks on the list to complete
+state
+    a Session with
+        a List with
+            a title String
+            a set of ListItems with
+                a task Task
+                an defaultOrder Number
+                a randomOrder Number
+                an itemStatus TaskStatus
+            an itemCount Number
+        an active Flag
+        an ordering OrderType
+        a format FormatType
+actions
+    changeSession (list : List)
+        requires : 
+        effects : makes list the Session's List with each randomOrder = defaultOrder, itemStatus = Incomplete, active = False, ordering = Default, and format = List
+    setOrdering (newType : OrderType)
+        requires : session's active Flag is currently False
+        effects : ordering is set to newType
+    setFormat (newFormat : FormatType)
+        requires : session's active Flag is currently False
+        effects: format is set to newFormat
+    randomizeOrder ()
+        requires : session's ordering is set to "Random"
+        effects : each ListItems randomOrder value is updated at random, maintaining dependencies between tasks
+    activateSession ( )
+        requires : session's active Flag is currently False
+        effects : session's active Flag is set to True
+    startTask (task : Task)
+        requires : task is in a ListItem for session's list, its status is currently "Incomplete", and no other task is "In Progress"
+        effects: given ListItem's status is set to "In Progress"
+    completeTask (task : Task)
+        requires : task is in a ListItem for session's list and its status is currently "In Progress"
+        effects : given ListItem's status is set to "Complete"
+    endSession ( )
+        requires : session's active Flag is currently True
+        effects : session's active Flag is set to False
+    
+```
+
+Generic Type Constructions:
+```
+Relation := ["Must happen before", "Must happen after", "Must happen right before", "Must happen right after"]
+TaskStatus := ["Incomplete", "In Progress", "Complete"]
+OrderType := ["Default", "Random"]
+FormatType := ["List", "Reveal"]
 ```
 
 **Syncs**
