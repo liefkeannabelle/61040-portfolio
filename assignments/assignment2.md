@@ -184,8 +184,7 @@ FormatType := ["List", "Reveal"]
 ## UI Sketches. 
 Here are some high-level sketches of the UI I am picturing for Task Tackler.
 
-![wireframes](assets/wireframes.jpg)
-
+![wireframes](/assets/wireframes.jpg)
 
 ## User journey. 
 Jane has a lot on her plate: academics, clubs, job applications, and typical life maintenance. She tries and fails to make to-do lists or calendars that help manage her busy life. Finally, she turns to Task Tackler. She starts by brain dumping all of the things she has to do in that moment: do a reading, write a discussion post, finish a pset, respond to emails, do her laundry, go to the store. As she enters each into the Task Bank, she notes that she needs to do the reading before she can write the discussion post and she needs to go to the store before she can do her laundry. Then, she creates a new list and adds all the tasks she needs to complete that day, deciding she can wait to respond to the email and do her laundry until the next day. Once she has created her list, she activates the session. Today, she decides to use the randomized ordering and the reveal format. Once she presses start, her first task is given: "Do reading". So, she does her reading. When she's done, she comes back and marks it as complete. Then, she is presented with her next task. This continues until she has completed all her tasks for the day. She finally feels like she can keep track of all of the things on her plate without making time management a whole new task of its own. 
