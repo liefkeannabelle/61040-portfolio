@@ -9,7 +9,7 @@ Some fun facts about me:
 2. My favorite color is green.
 3. I've never broken a bone.
 
-![picture of snow leopard mama and baby](assets/Bear%20swimming.jpg)
+![bear swimming](assets/Bear%20swimming.jpg)
 
 
 # Table of Contents

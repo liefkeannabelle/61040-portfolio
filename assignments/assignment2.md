@@ -182,7 +182,9 @@ FormatType := ["List", "Reveal"]
 ```
 
 ## UI Sketches. 
-Construct some low-fidelity sketches of your user interface that show the primary user interface elements and their rough layout, annotated with pointers or comments to explain anything that might not be obvious. You should omit any error handling and standard interactions (such as user registration), but should aim to convey how the essential features appear and are used. You can use any tool you like to draw the sketches, or you can draw them by hand and scan them. You should include them in your design document as images referenced in markdown.
+Here are some high-level sketches of the UI I am picturing for Task Tackler.
+
+![wireframes](assets/wireframes.jpg)
 
 
 ## User journey. 
